@@ -5,22 +5,46 @@ sequentially from 0 to n - 1 and each box may contain keys to the other boxes.
 """
 
 
+def go_again(boxes, check):
+    """
+    a method that determines if the operation will repeat.
+    """
+    again = False
+    for y in range(len(boxes)):
+        if check[y] is True:
+            for x in boxes[y]:
+                if check[x] is not True:
+                    check[x] = True
+                    if y > x:
+                        again = True
+    return again
+
+
 def canUnlockAll(boxes):
     """
     a method that determines if all the boxes can be opened.
     """
 
-    new = []
-    for x in boxes[0]:
-        new.append(x)
-
+    check = []
     for x in range(len(boxes)):
-        if x in new:
-            for y in range(len(boxes[x])):
-                if not boxes[x][y] in new:
-                    new.append(boxes[x][y])
+        check.append(False)
 
-    if len(new) is len(boxes) - 1:
-        return True
-    else:
+    check[0] = True
+
+    again = False
+
+    for y in range(len(boxes)):
+        if check[y] is True:
+            for x in boxes[y]:
+                if check[x] is not True:
+                    check[x] = True
+                    if y > x:
+                        again = True
+
+    while (again):
+        again = go_again(boxes, check)
+
+    if False in check:
         return False
+    else:
+        return True
