@@ -11,12 +11,14 @@ def go_again(boxes, check):
     """
     again = False
     for y in range(len(boxes)):
-        if check[y] is True:
-            for x in boxes[y]:
-                if check[x] is not True:
-                    check[x] = True
-                    if y > x:
-                        again = True
+        if len(check) > y:
+            if check[y] is True:
+                for x in boxes[y]:
+                    if len(check) > x:
+                        if check[x] is not True and len(check) > x:
+                            check[x] = True
+                            if y > x:
+                                again = True
     return again
 
 
@@ -34,12 +36,14 @@ def canUnlockAll(boxes):
     again = False
 
     for y in range(len(boxes)):
-        if check[y] is True:
-            for x in boxes[y]:
-                if check[x] is not True:
-                    check[x] = True
-                    if y > x:
-                        again = True
+        if len(check) > y:
+            if check[y] is True:
+                for x in boxes[y]:
+                    if len(check) > x:
+                        if check[x] is not True and len(check) > x:
+                            check[x] = True
+                            if y > x:
+                                again = True
 
     while (again):
         again = go_again(boxes, check)
