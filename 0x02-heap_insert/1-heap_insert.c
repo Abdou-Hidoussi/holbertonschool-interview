@@ -15,7 +15,7 @@ int smol(heap_t *parent)
 }
 
 
-void switchrue(heap_t **root)
+heap_t *switchrue(heap_t **root)
 {
 	heap_t *parent;
 	int tmp;
@@ -27,12 +27,9 @@ void switchrue(heap_t **root)
 		parent->n = tmp;
 		parent = parent->parent;
 		if (!parent->parent)
-		{
-			break;
-		}
-		
+            break; 		
 	}
-	
+	return parent;
 }
 
 
@@ -50,14 +47,12 @@ heap_t *heap_insert(heap_t **root, int value)
 	if (!parent->left)
 	{
 		parent->left = binary_tree_node(parent, value);
-		switchrue(&parent->left);
-		return parent;
+		return switchrue(&parent->left);
 	}
 	if (!parent->right)
 	{
 		parent->right = binary_tree_node(parent, value);
-		switchrue(&parent->right);
-		return parent;
+		return switchrue(&parent->right);
 	}
 
 	if (smol(parent->left) <= smol(parent->right))
