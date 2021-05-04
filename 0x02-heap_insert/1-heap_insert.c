@@ -10,6 +10,8 @@ int smol(heap_t *parent)
 
     if (parent->right)
         return smol(parent->right) + 1;
+
+    return (0);
 }
 
 
