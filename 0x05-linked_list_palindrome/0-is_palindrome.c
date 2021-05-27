@@ -6,24 +6,23 @@
  */
 int is_palindrome(listint_t **head)
 {
-	listint_t *count, *last, *before;
+	listint_t *count, *last;
 
 	count = *head;
-	last = count;
-	while (last->next != NULL)
+	last = *head;
+
+	while (last->next)
 		last = last->next;
 
-	while (count->next != last && count->n == last->n)
+	while (count < last)
 	{
-		count = count->next;
-		before = last;
-		last = count;
-		while (last->next != before && last->next != NULL)
-			last = last->next;
+		if (count->n == last->n)
+		{
+			count = count->next;
+			last -= 2;
+		}
+		else
+			return (0);
 	}
-
-	if (count->next == last && count->n == last->n)
-		return (1);
-	else
-		return (0);
+	return (1);
 }
