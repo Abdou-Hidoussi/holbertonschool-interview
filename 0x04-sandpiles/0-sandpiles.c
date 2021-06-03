@@ -1,6 +1,6 @@
 #include "sandpiles.h"
 /**
- * print_grid - Print 3x3 grid
+ * print_grid_per - Print 3x3 grid
  * @grid: 3x3 grid
  *
  */
@@ -54,6 +54,8 @@ void pop(int grid[3][3], int i, int j)
  */
 void fill(int grid1[3][3], int grid2[3][3])
 {
+	int i, j;
+
 	if (grid2[1][1] == 1)
 		pop(grid1, 1, 1);
 
@@ -76,6 +78,15 @@ void fill(int grid1[3][3], int grid2[3][3])
 		pop(grid1, 0, 2);
 	if (grid2[2][0] == 1)
 		pop(grid1, 2, 0);
+
+	for (i = 0; i < 3; i++)
+		for (j = 0; j < 3; j++)
+			if (grid1[i][j] > 3)
+			{
+				printf("=\n");
+				print_grid_per(grid1);
+				return;
+			}
 }
 /**
  * sandpiles_sum - sum of two sandpiles
@@ -91,8 +102,6 @@ void sandpiles_sum(int grid1[3][3], int grid2[3][3])
 		for (j = 0; j < 3; j++)
 			grid1[i][j] += grid2[i][j];
 
-	printf("=\n");
-	print_grid_per(grid1);
 
 	for (i = 0; i < 3; i++)
 		for (j = 0; j < 3; j++)
