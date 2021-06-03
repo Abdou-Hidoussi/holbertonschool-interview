@@ -56,6 +56,16 @@ void fill(int grid1[3][3], int grid2[3][3])
 {
 	int i, j;
 
+	for (i = 0; i < 3; i++)
+		for (j = 0; j < 3; j++)
+			if (grid1[i][j] > 3)
+			{
+				printf("=\n");
+				print_grid_per(grid1);
+				i = 4;
+				break;
+			}
+
 	if (grid2[1][1] == 1)
 		pop(grid1, 1, 1);
 
@@ -79,14 +89,7 @@ void fill(int grid1[3][3], int grid2[3][3])
 	if (grid2[2][0] == 1)
 		pop(grid1, 2, 0);
 
-	for (i = 0; i < 3; i++)
-		for (j = 0; j < 3; j++)
-			if (grid1[i][j] > 3)
-			{
-				printf("=\n");
-				print_grid_per(grid1);
-				return;
-			}
+
 }
 /**
  * sandpiles_sum - sum of two sandpiles
