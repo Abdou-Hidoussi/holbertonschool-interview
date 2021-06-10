@@ -1,31 +1,21 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "lists.h"
-
 /**
- * check_cycle - Check if a singly linked list is a cycle
- * @list: The pointer to the list's head
- * Return: 0 if has no cycle, 1 if any other case
+ * check_cycle - function that checks if a singly linked list has a cycle in it
+ * @list: pointer to head of list
+ * Return: 0 if there is no cycle, 1 if there is a cycle
  */
-
 int check_cycle(listint_t *list)
 {
-	listint_t *ptr_1 = list, *ptr_2 = list;
+	listint_t *head, *count;
 
-	while (ptr_1 && ptr_2 && ptr_2->next)
+	head = count = list;
+	while (head && count)
 	{
-		ptr_1 = ptr_1->next;
-		ptr_2 = ptr_2->next->next;
+		head = head->next;
+		count = count->next->next;
 
-		/* If ptr_1 and ptr_2 meet at some point then there is a loop */
-		if (ptr_1 == ptr_2)
-		{
-
-			/* Return 1 to indicate that loop is found */
+		if (count == head)
 			return (1);
-		}
 	}
-
-	/* Return 0 to indeciate that ther is no loop*/
 	return (0);
 }
