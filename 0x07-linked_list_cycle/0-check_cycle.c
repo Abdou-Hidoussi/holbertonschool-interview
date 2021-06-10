@@ -9,7 +9,7 @@ int check_cycle(listint_t *list)
 	listint_t *head, *count;
 
 	head = count = list;
-	while (head || count)
+	while (head && count)
 	{
 		if (head->next == NULL)
 			return (0);
