@@ -8,7 +8,7 @@ int check_cycle(listint_t *list)
 {
 	listint_t *head = list, *count = list;
 
-	while (head && count && head->next)
+	while (head && count && count->next)
 	{
 		head = head->next;
 		count = count->next->next;
