@@ -6,8 +6,9 @@
  */
 int check_cycle(listint_t *list)
 {
-	listint_t *head = list, *count = list;
+	listint_t *head, *count;
 
+	count = head = list;
 	while (head && count && count->next)
 	{
 		head = head->next;
