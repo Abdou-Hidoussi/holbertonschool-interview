@@ -57,6 +57,7 @@ int slide_line(int *line, size_t size, int direction)
 	switch (direction)
 	{
 		case SLIDE_RIGHT:
+			right_shift(line, size);
 			for (i = size - 1; i != 0; i--)
 				if (line[i] == line[i - 1])
 				{
@@ -66,6 +67,7 @@ int slide_line(int *line, size_t size, int direction)
 			right_shift(line, size);
 			return (1);
 		case SLIDE_LEFT:
+			left_shift(line, size);
 			for (i = 0; i < size; i++)
 				if (line[i] == line[i + 1])
 				{
