@@ -1,25 +1,47 @@
 #include "slide_line.h"
 /**
- * collapse - Prints out an array of integer, followed by a new line
- * @line: Pointer to the array of integer to be printed
- * @size: Number of elements in @array
- * @direction: direction
- * Return: 0 or 1
+ * left_shift - slides a line to the left
+ * @line: input array
+ * @size: size of array
  */
-int collapse(int *line, size_t size, int direction)
+void left_shift(int *line, size_t size)
 {
+	size_t i;
 
-	if (direction == -1)
+	for (i = 0; i < size; i++)
 	{
-		moving_right(line, size);
-		return (1);
+		if (line[i] == 0 && line[i + 1] != 0)
+		{
+			line[i] = line[i + 1];
+			line[i + 1] = 0;
+			for (i = 0; i < size; i++)
+				if (line[i] == 0)
+					break;
+			i--;
+		}
 	}
-	if (direction == 1)
+}
+/**
+ * right_shift - slides a line to the right
+ * @line: input array
+ * @size: size of array
+ */
+void right_shift(int *line, size_t size)
+{
+	size_t i;
+
+	for (i = size - 1; i != 0; i--)
 	{
-		moving_left(line, size);
-		return (1);
+		if (line[i] == 0 && line[i - 1] != 0)
+		{
+			line[i] = line[i - 1];
+			line[i - 1] = 0;
+			for (i = size - 1; i != 0; i--)
+				if (line[i] == 0)
+					break;
+			i++;
+		}
 	}
-	return (0);
 }
 /**
  * slide_line - Prints out an array of integer, followed by a new line
@@ -30,83 +52,29 @@ int collapse(int *line, size_t size, int direction)
  */
 int slide_line(int *line, size_t size, int direction)
 {
-	int tmp;
-	size_t i, j;
+	size_t i;
 
-	tmp = 0;
-	for (i = 0; i < size; i++)
+	switch (direction)
 	{
-		if (tmp == line[i] && tmp != 0)
-		{
-			line[i] += line[i];
-			line[j] = 0;
-			tmp = 0;
-		}
-		else
-			if ((tmp == 0 && line[i] != 0) ||
-			(tmp != line[i] && tmp != 0 && line[i] != 0))
-			{
-				tmp = line[i];
-				j = i;
-			}
+		case SLIDE_RIGHT:
+			for (i = size - 1; i != 0; i--)
+				if (line[i] == line[i - 1])
+				{
+					line[i] += line[i - 1];
+					line[i - 1] = 0;
+				}
+			right_shift(line, size);
+			return (1);
+		case SLIDE_LEFT:
+			for (i = 0; i < size; i++)
+				if (line[i] == line[i + 1])
+				{
+					line[i] += line[i + 1];
+					line[i + 1] = 0;
+				}
+
+			left_shift(line, size);
+			return (1);
 	}
-	return (collapse(line, size, direction));
-}
-void moving_left(int *line, size_t size)
-{
-    int i = 0, j, previous = 0, current;
-
-    for (j = 0; j < (int)size; j++)
-    {
-        current = line[j];
-        if (!current)
-            continue;
-        if (!previous)
-            previous = current;
-        else if (previous == current)
-        {
-            line[i++] = current << 1;
-            previous = 0;
-        } else
-        {
-            line[i++] = previous;
-            previous = current;
-        }
-    }
-    if (previous)
-        line[i++] = previous;
-    while (i < (int)size)
-        line[i++] = 0;
-}
-
-/**
- * tothe_right - slides a line to the right
- * @line: input array
- * @size: size of array
- */
-void moving_right(int *line, size_t size)
-{
-    int previous = 0, i = size - 1, j, current;
-
-    for (j = size - 1; j >= 0; j--)
-    {
-        current = line[j];
-        if (!current)
-            continue;
-        if (!previous)
-            previous = current;
-        else if (previous == current)
-        {
-            line[i--] = current << 1;
-            previous = 0;
-        } else
-        {
-            line[i--] = previous;
-            previous = current;
-        }
-    }
-    if (previous)
-        line[i--] = previous;
-    while (i >= 0)
-        line[i--] = 0;
+	return (0);
 }

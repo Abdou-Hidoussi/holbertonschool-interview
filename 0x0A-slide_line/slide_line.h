@@ -7,9 +7,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void moving_left(int *line, size_t size);
-void moving_right(int *line, size_t size);
-int collapse(int *line, size_t size, int direction);
+void left_shift(int *line, size_t size);
+void right_shift(int *line, size_t size);
 int slide_line(int *line, size_t size, int direction);
 
 #endif /* SLIDE_H */
