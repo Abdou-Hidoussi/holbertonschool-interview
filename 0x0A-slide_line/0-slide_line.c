@@ -1,13 +1,4 @@
 #include "slide_line.h"
-static void print_array(int const *array, size_t size)
-{
-	size_t i;
-
-	printf("Line: ");
-	for (i = 0; i < size; i++)
-		printf("%s%d", i > 0 ? ", " : "", array[i]);
-	printf("\n");
-}
 /**
  * left_shift - slides a line to the left
  * @line: input array
