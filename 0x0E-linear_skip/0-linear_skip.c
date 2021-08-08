@@ -40,7 +40,7 @@ skiplist_t *linear_skip(skiplist_t *list, int value)
 
 
 		if (list->express->n >= value)
-			return (check_list(list, value, list->express));
+			return (check_list(list, list->express, value));
 
 
 		list = list->express;
