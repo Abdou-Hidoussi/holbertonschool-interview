@@ -10,6 +10,8 @@ def rain(walls):
     water = 0
     if walls is None:
         return
+    if walls == []:
+        return
     for y in range(len(walls)):
         if walls[y] != 0:
             break
