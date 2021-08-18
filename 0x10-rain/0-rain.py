@@ -8,11 +8,13 @@ def rain(walls):
     will be retained after it rains  """
     space = 0
     water = 0
+    if walls is None:
+        return
     for y in range(len(walls)):
-        if walls[y] is not 0:
+        if walls[y] != 0:
             break
     for x in range(y + 1, len(walls)):
-        if walls[x] is 0:
+        if walls[x] == 0:
             space += 1
         else:
             if walls[x] < walls[y]:
