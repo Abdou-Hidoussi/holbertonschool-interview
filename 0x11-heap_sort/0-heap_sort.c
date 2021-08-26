@@ -1,7 +1,7 @@
 #include "sort.h"
 /**
- * main - Entry point
- * @arry: array
+ * sift_down - Entry point
+ * @array: array
  * @size: size
  * @n: n
  * @i: i
@@ -31,7 +31,7 @@ void sift_down(int *array, size_t size, size_t n, size_t i)
 }
 /**
  * heap_sort - Entry point
- * @arry: array
+ * @array: array
  * @size: size
  * Return: Always 0
  */
