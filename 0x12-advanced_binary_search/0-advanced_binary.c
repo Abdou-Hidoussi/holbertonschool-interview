@@ -15,9 +15,16 @@ int advanced_binary_counter(int *array, int value, int l, int r)
 	if (l == r)
 	{
 		if (array[l] == value)
+		{
 			return (l);
+		}
 		else
+		{
+			printf("Searching in array:");
+			for (i = l; i <= r; i++)
+				i != r ? printf(" %i,", array[i]) : printf(" %i\n", array[i]);
 			return (-1);
+		}
 	}
 	printf("Searching in array:");
 	for (i = l; i <= r; i++)
