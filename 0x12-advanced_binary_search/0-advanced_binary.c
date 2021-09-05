@@ -1,5 +1,20 @@
 #include "search_algos.h"
 /**
+ * the_print - print function
+ * @array: pointer to array to print
+ * @r: right counter
+ * @l: left counter
+ *
+ */
+void the_print(int *array, int l, int r)
+{
+	int i;
+
+	printf("Searching in array:");
+	for (i = l; i <= r; i++)
+		i != r ? printf(" %i,", array[i]) : printf(" %i\n", array[i]);
+}
+/**
  * advanced_binary_counter - searches for a value in a sorted array of integers
  * @array: pointer to array to search
  * @r: right counter
@@ -10,8 +25,6 @@
  */
 int advanced_binary_counter(int *array, int value, int l, int r)
 {
-	int i;
-
 	if (l == r)
 	{
 		if (array[l] == value)
@@ -20,15 +33,11 @@ int advanced_binary_counter(int *array, int value, int l, int r)
 		}
 		else
 		{
-			printf("Searching in array:");
-			for (i = l; i <= r; i++)
-				i != r ? printf(" %i,", array[i]) : printf(" %i\n", array[i]);
+			the_print(array, l, r);
 			return (-1);
 		}
 	}
-	printf("Searching in array:");
-	for (i = l; i <= r; i++)
-		i != r ? printf(" %i,", array[i]) : printf(" %i\n", array[i]);
+	the_print(array, l, r);
 
 	if (array[(l + r) / 2] < value)
 		return (advanced_binary_counter(array, value, (((l + r) / 2) + 1), r));
