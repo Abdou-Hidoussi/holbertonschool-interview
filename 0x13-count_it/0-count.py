@@ -36,6 +36,6 @@ def count_words(subreddit, word_list):
         return None
 
     all_sort = collections.Counter(all_list)
-    for x in word_list:
-        if (x in all_sort):
-            print("{}: {}".format(x, all_sort[x]))
+    for x in sorted(word_list):
+        if (x.lower() in all_sort):
+            print("{}: {}".format(x.lower(), all_sort[x.lower()]))
