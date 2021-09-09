@@ -18,6 +18,7 @@ def get_words(subreddit, all_list=[], after=None):
     after = req.json().get("data").get("after")
     if after is None:
         return all_list
+
     for child in req.json().get("data").get("children"):
         for word in child.get("data").get("title").split():
             all_list.append(word.lower())
@@ -35,7 +36,13 @@ def count_words(subreddit, word_list):
     if all_list is None:
         return None
 
+    shown = {}
     all_sort = collections.Counter(all_list)
     for x in sorted(word_list):
         if (x.lower() in all_sort):
-            print("{}: {}".format(x.lower(), all_sort[x.lower()]))
+            if (x.lower() not in shown):
+                shown[x.lower()] = all_sort[x.lower()]
+
+    for key, val in sorted(shown.items(),
+                           key=lambda item: item[1], reverse=True):
+        print("{}: {}".format(key, val))
