@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 "Count it "
 
-import requests
 import collections
+import requests
 
 
 def get_words(subreddit, all_list=[], after=None):
