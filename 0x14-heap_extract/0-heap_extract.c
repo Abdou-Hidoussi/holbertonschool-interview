@@ -74,12 +74,12 @@ int heap_extract(heap_t **root)
 	{
 		if (old->right->n < old->left->n)
 		{
-			switchrue(&old, &old->right);
+			switchrue(&old, &old->left);
 			old = old->left;
 		}
 		else
 		{
-			switchrue(&old, &old->left);
+			switchrue(&old, &old->right);
 			old = old->right;
 		}
 	}
