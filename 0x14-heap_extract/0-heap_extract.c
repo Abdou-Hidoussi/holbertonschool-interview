@@ -48,7 +48,7 @@ int heap_extract(heap_t **root)
 	heap_t *new, *old;
 	int r = 0, l = 0, ret;
 
-	if (!root)
+	if (!root || !*root)
 		return (0);
 	old = *root;
 	new = *root;
