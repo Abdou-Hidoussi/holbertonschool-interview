@@ -83,8 +83,8 @@ int main(int argc, char *argv[])
 
 	pre_calc(argc, argv);
 
-	len1 = strlen(argv[1]);
-	len2 = strlen(argv[2]);
+	len1 = _strlen(argv[1]);
+	len2 = _strlen(argv[2]);
 
 	result = malloc((len1 + len2) * sizeof(*result));
 	if (result == NULL)
