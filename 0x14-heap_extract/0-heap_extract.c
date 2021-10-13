@@ -1,87 +1,134 @@
 #include "binary_trees.h"
 
 /**
- * binary_tree_height - Holberton
+ * swap_nodes - swap data of two specified nodes
+ * @a: pointer to first node
+ * @b: pointer to second node
  *
- * @tree: Pointer to the tree
- * Return: Length  of tree
+ * Return: pointer to node containing data of node a
  */
-int binary_tree_height(const heap_t *tree)
+heap_t *swap_nodes(heap_t *a, heap_t *b)
 {
-	int r, l;
+	a->n ^= b->n;
+	b->n ^= a->n;
+	a->n ^= b->n;
 
-	if (!tree)
+	return (b);
+}
+
+/**
+ * max_heapify - restore max-heap property for binary tree
+ * @node: pointer to root node
+ *
+ * Return: pointer to tree node containing data of original node
+ * or NULL on error
+ */
+heap_t *max_heapify(heap_t *node)
+{
+	heap_t *greatest;
+
+	if (!node)
+		return (NULL);
+	do {
+		greatest = NULL;
+		if (node->left && node->n <= node->left->n)
+			greatest = node->left;
+		if (node->right && node->n <= node->right->n &&
+				(!greatest || greatest->n < node->right->n))
+			greatest = node->right;
+		if (greatest)
+			node = swap_nodes(node, greatest);
+	} while (greatest);
+	return (node);
+}
+
+/**
+ * n_node - find n-th node (BFS order) of tree
+ * @node: pointer to root node
+ * @n: one-indexed n-th node to find
+ *
+ * Return: pointer to specified node or NULL on error
+ */
+heap_t *n_node(heap_t *node, int n)
+{
+	int bit_idx, mask;
+
+	if (!node || n < 0)
+		return (NULL);
+	for (bit_idx = 0; 1 << (bit_idx + 1) <=  n; ++bit_idx)
+		;
+	for (--bit_idx; bit_idx >= 0; --bit_idx)
+	{
+		mask = 1 << bit_idx;
+		if (n & mask)
+		{
+			if (node->right)
+				node = node->right;
+			else
+				break;
+		}
+		else
+		{
+			if (node->left)
+				node = node->left;
+			else
+				break;
+		}
+	}
+	if (bit_idx > -1)
+		return (NULL);
+	return (node);
+}
+
+/**
+ * get_size - find size of binary tree
+ * @node: pointer to root node of binary tree
+ *
+ * Return: size of binary tree
+ */
+int get_size(heap_t *node)
+{
+	if (!node)
 		return (0);
-	l = 0;
-	r = 0;
-	if (tree->left)
-		l += 1;
-	if (tree->right)
-		r += 1;
-	r += binary_tree_height(tree->right);
-	l += binary_tree_height(tree->left);
-	if (r > l)
-		return (r);
-	return (l);
+	return (1 + get_size(node->left) + get_size(node->right));
 }
-/**
- * switchrue - switch values
- * @o: Pointer to element of the tree
- * @n: Pointer to element of the tree
- */
-void switchrue(heap_t **o, heap_t **n)
-{
-	heap_t *old = *o, *new = *n;
-	int tmp;
 
-	tmp = old->n;
-	old->n = new->n;
-	new->n = tmp;
-}
 /**
- * heap_extract - extract value
- * @root: Pointer to the tree
- * Return: the extracted node or 0
+ * heap_extract - extract root node from max binary heap
+ * @root: double pointer to root node of heap
+ *
+ * Return: value stored in root node or 0 or failure
  */
 int heap_extract(heap_t **root)
 {
-	heap_t *new, *old;
-	int r = 0, l = 0, ret;
+	static heap_t *prev_root;
+	heap_t *node;
+	static int size;
+	int data;
 
 	if (!root || !*root)
 		return (0);
-	old = *root;
-	new = *root;
-	ret = old->n;
-	while (new->right || new->left)
+	if (prev_root != *root || (n_node(*root, size + 1)))
 	{
-		r = binary_tree_height(new->right);
-		l = binary_tree_height(new->left);
-		if (r < l || new->right == NULL)
-			new = new->left;
-		else
-			new = new->right;
+		prev_root = *root;
+		size = get_size(*root);
 	}
-	switchrue(&old, &new);
-	if (new->parent->right && new->parent->right == new)
-		new->parent->right = NULL;
+	node = n_node(*root, size);
+	if (node->parent)
+	{
+		data = swap_nodes(*root, node)->n;
+		if (node->parent->left == node)
+			node->parent->left = NULL;
+		else
+			node->parent->right = NULL;
+	}
 	else
-		new->parent->left = NULL;
-	new->parent = NULL;
-	free(new);
-	old = *root;
-	while (old->right || old->left)
 	{
-		if (old->right->n < old->left->n)
-		{
-			switchrue(&old, &old->left);
-			old = old->left;
-		}
-		else
-		{
-			switchrue(&old, &old->right);
-			old = old->right;
-		}
+		data = (*root)->n;
+		*root = NULL;
 	}
-	return (ret);
+	free(node);
+	--size;
+	max_heapify(*root);
+	return (data);
 }
