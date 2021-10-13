@@ -48,7 +48,7 @@ skiplist_t *linear_skip(skiplist_t *list, int value)
 		if (!list->express)
 		{
 			this = list;
-			while (!this->next)
+			while (this->next != NULL)
 				this = this->next;
 			return (check_list(list, this, value));
 		}
