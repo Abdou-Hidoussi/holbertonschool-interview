@@ -5,7 +5,7 @@ import collections
 import requests
 
 
-def get_words(subreddit, all_list=[], after=None):
+def get_words(subreddit, hot_list=[], after=None):
     """
     recursive get all the words in hot titles
     """
@@ -17,12 +17,11 @@ def get_words(subreddit, all_list=[], after=None):
         return None
     after = req.json().get("data").get("after")
     if after is None:
-        return all_list
-
-    for child in req.json().get("data").get("children"):
-        for word in child.get("data").get("title").split():
-            all_list.append(word.lower())
-    return get_words(subreddit, all_list, after)
+        return hot_list
+    for i in req.json().get("data").get("children"):
+        for word in i.get("data").get("title").split():
+            hot_list.append(word.lower())
+    return get_words(subreddit, hot_list, after)
 
 
 def count_words(subreddit, word_list):
@@ -31,21 +30,19 @@ def count_words(subreddit, word_list):
     """
     if subreddit is None or subreddit == "" or word_list is None:
         return None
-
-    all_list = get_words(subreddit)
-    if all_list is None:
+    hot_list = get_words(subreddit)
+    if hot_list is None:
         return None
-
-    shown = {}
-    all_sort = collections.Counter(all_list)
+    all_cnt = collections.Counter(hot_list)
+    filtered_cnt = {}
     for word in word_list:
         word_l = word.lower()
-        if all_sort[word_l] > 0:
-            if word in shown:
-                shown[word] += shown[word]
+        if all_cnt[word_l] > 0:
+            if word in filtered_cnt:
+                filtered_cnt[word] += filtered_cnt[word]
             else:
-                shown[word] = all_sort[word_l]
-
-    for key, val in sorted(shown.items(),
-                           key=lambda item: item[1], reverse=True):
-        print("{}: {}".format(key, val))
+                filtered_cnt[word] = all_cnt[word_l]
+    for k, v in sorted(filtered_cnt.items(),
+                       key=lambda item: item[1], reverse=True):
+        print("{}: {}".format(k, v))
+    return filtered_cnt
