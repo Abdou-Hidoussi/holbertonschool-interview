@@ -38,10 +38,13 @@ def count_words(subreddit, word_list):
 
     shown = {}
     all_sort = collections.Counter(all_list)
-    for x in sorted(word_list):
-        if (x.lower() in all_sort):
-            if (x.lower() not in shown):
-                shown[x.lower()] = all_sort[x.lower()]
+    for word in word_list:
+        word_l = word.lower()
+        if all_sort[word_l] > 0:
+            if word in shown:
+                shown[word] += shown[word]
+            else:
+                shown[word] = all_sort[word_l]
 
     for key, val in sorted(shown.items(),
                            key=lambda item: item[1], reverse=True):
