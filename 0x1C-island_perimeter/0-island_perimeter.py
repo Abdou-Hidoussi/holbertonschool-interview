@@ -2,11 +2,8 @@
 
 """ Function to find perimiter of an island """
 
-
-from xxlimited import new
-
-
 def island_perimeter(grid):
+    """ Function to find perimiter of an island """
     count = 0
     for x in range(len(grid)):
         for y in range(len(grid)):
