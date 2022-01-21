@@ -2,6 +2,6 @@
 #define REGEX_H
 
 int regex_match(char const *str, char const *pattern);
-int wild(char const *str, char const *pattern);
+int wildcmp(char const *str, char const *pattern);
 
 #endif
